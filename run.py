@@ -34,7 +34,7 @@ def preview():
     combineJpgPath = '../../static/pdfPreview/' + pdfName + '/combine.jpg'
     combineJpgPath_download = 'static/pdfPreview/' + pdfName + '/combine.jpg'
 
-    command = 'python utils/pdf-jpg.py -path %s -combine True' % pdfPath
+    command = 'python3 utils/pdf-jpg.py -path %s -combine True' % pdfPath
     print(command)
     os.system(command)
     # python utils/pdf-jpg.py -path test/Aladdin_EN.pdf -combine True
