@@ -41,6 +41,15 @@ i = 1
 outFile_list = []
 info = pdfinfo_from_path(pdfPath, userpw=None, poppler_path=None)
 maxPages = info["Pages"]
+for page in range(1, maxPages+1) :
+    cur_chunkPage = convert_from_path(pdfPath, dpi=150, first_page=page, last_page = page)
+    for p in cur_chunkPage:
+        outPath = jpgPath + '/%s.jpg'%str(i)
+        p.save(outPath, 'JPEG')
+        p.save('file/jpg/' + pdfName + '/%s.jpg'%str(i), 'JPEG')
+        i += 1
+        outFile_list.append(outPath)
+'''
 for page in range(1, maxPages+1, 3) :
     cur_chunkPage = convert_from_path(pdfPath, dpi=200, first_page=page, last_page = min(page+3-1,maxPages))
     for p in cur_chunkPage:
@@ -49,6 +58,7 @@ for page in range(1, maxPages+1, 3) :
         p.save('static/pdfPreview/' + pdfName + '/%s.jpg'%str(i), 'JPEG')
         i += 1
         outFile_list.append(outPath)
+'''
 
 if combine == 'True':
     from PIL import Image
