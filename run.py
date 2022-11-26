@@ -12,8 +12,9 @@ def main():
     print('start')
     if request.method == 'POST':
         file = request.files['filename']
-        file.save(os.path.join('file/pdf', file.filename))
-        status = json.dumps({"pdfPath": file.filename})
+        save_filename = file.filename.replace(' ', '-')
+        file.save(os.path.join('file/pdf', save_filename))
+        status = json.dumps({"pdfPath": save_filename})
         session['messages'] = status
         return redirect(url_for('preview', messages=status))
     return render_template('upload.html')
