@@ -42,7 +42,7 @@ outFile_list = []
 info = pdfinfo_from_path(pdfPath, userpw=None, poppler_path=None)
 maxPages = info["Pages"]
 for page in range(1, maxPages+1, 3) :
-    cur_chunkPage = convert_from_path(pdfPath, dpi=200, first_page=page, last_page = min(page+10-1,maxPages))
+    cur_chunkPage = convert_from_path(pdfPath, dpi=200, first_page=page, last_page = min(page+3-1,maxPages))
     for p in cur_chunkPage:
         outPath = jpgPath + '/%s.jpg'%str(i)
         p.save(outPath, 'JPEG')
