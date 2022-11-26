@@ -22,7 +22,7 @@ pdfName = pdfPath.split('/')[-1].replace('.pdf', '')
 jpgPath = 'file/jpg/' + pdfName
 dpi = 200
 combine = args.combine
-thread_count = 100
+thread_count = 1
 
 '''
 python pdf-jpg.py -path test/Aladdin_EN.pdf -combine True
