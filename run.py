@@ -2,6 +2,8 @@
 from flask import Flask, render_template, flash, redirect, url_for, session, request, logging, send_file
 import os
 import json
+from io import BytesIO
+import zipfile
 
 app = Flask(__name__)
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
@@ -46,13 +48,33 @@ def preview():
         if buttValue == 'downloadMerge':
             return send_file(combineJpgPath_download, as_attachment=True)
         if buttValue == 'downloadSplit':
-            for filename in os.listdir(jpgPath):
-                if filename.split('.')[-1] == 'jpg':
-                    send_file(jpgPath + '/%s'%filename, as_attachment=True)
-        #download
-        #if new upload
-        # to upload
-        pass
+            '''
+            stream = BytesIO()
+            with ZipFile(stream, 'w') as zf:
+                download_filelist = []
+                for filename in os.listdir(jpgPath):
+                    if filename.split('.')[-1] == 'jpg' and 'combine' not in filename:
+                        #print(jpgPath + '/%s'%filename)
+                        download_filelist.append(jpgPath + '/%s'%filename)
+                        zf.write(jpgPath + '/%s'%filename, os.path.basename(jpgPath + '/%s'%filename))
+                stream.seek(0)
+            '''
+
+            # Zip file Initialization
+            zipfolder = zipfile.ZipFile('%s.zip'%pdfName, 'w', compression=zipfile.ZIP_STORED)  # Compression type
+
+            # zip all the files which are inside in the folder
+            for root, dirs, files in os.walk(jpgPath):
+                for filename in files:
+                    if filename.split('.')[-1] == 'jpg' and 'combine' not in filename:
+                        zipfolder.write(jpgPath + '/%s'%filename)
+            zipfolder.close()
+
+            return send_file('%s.zip'%pdfName,
+                             mimetype='zip',
+                             as_attachment=True,
+                             download_name='%s.zip'%pdfName)
+
 
 
 
