@@ -43,8 +43,12 @@ def preview():
     if request.method == 'POST':
         buttValue = request.form.get("btn")
         print(buttValue, combineJpgPath)
-        if buttValue == 'download':
+        if buttValue == 'downloadMerge':
             return send_file(combineJpgPath_download, as_attachment=True)
+        if buttValue == 'downloadSplit':
+            for filename in os.listdir(jpgPath):
+                if filename.split('.')[-1] == 'jpg':
+                    send_file(jpgPath + '/%s'%filename, as_attachment=True)
         #download
         #if new upload
         # to upload
