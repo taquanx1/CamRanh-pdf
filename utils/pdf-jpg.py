@@ -3,7 +3,7 @@ start = datetime.now()
 
 import argparse
 import os.path
-from pdf2image import convert_from_path
+from pdf2image import convert_from_path, pdfinfo_from_path
 '''
 Solution for [Errno 2] No such file or directory: 'pdfinfo'
 
@@ -28,23 +28,28 @@ thread_count = 1
 python pdf-jpg.py -path test/Aladdin_EN.pdf -combine True
 '''
 
-pages = convert_from_path(
-    pdf_path = pdfPath,
-    dpi = dpi,
-    thread_count = thread_count)
 
-i = 1
-outFile_list = []
+
+
+
 if not os.path.exists(jpgPath):
     os.makedirs(jpgPath)
 if not os.path.exists('static/pdfPreview/' + pdfName):
     os.makedirs('static/pdfPreview/' + pdfName)
-for page in pages:
-    outPath = jpgPath + '/%s.jpg'%str(i)
-    page.save(outPath, 'JPEG')
-    page.save('static/pdfPreview/' + pdfName + '/%s.jpg'%str(i), 'JPEG')
-    i += 1
-    outFile_list.append(outPath)
+
+i = 1
+outFile_list = []
+info = pdfinfo_from_path(pdfPath, userpw=None, poppler_path=None)
+maxPages = info["Pages"]
+for page in range(1, maxPages+1, 10) :
+    cur_chunkPage = convert_from_path(pdfPath, dpi=200, first_page=page, last_page = min(page+10-1,maxPages))
+    for p in cur_chunkPage:
+        outPath = jpgPath + '/%s.jpg'%str(i)
+        p.save(outPath, 'JPEG')
+        p.save('static/pdfPreview/' + pdfName + '/%s.jpg'%str(i), 'JPEG')
+        i += 1
+        outFile_list.append(outPath)
+
 if combine == 'True':
     from PIL import Image
 
