@@ -12,14 +12,15 @@
     <form method=post enctype=multipart/form-data>
         <div class="container align-bottom" align="center" style="margin-top:80px">
 
-            <div class="overflow-auto" style="max-width: 1500px; max-height: 700px;">
+            <div class="overflow-auto" style="max-width: 1500px; max-height: 500px;">
                 <div class="container align-bottom" align="left" style="margin-top:80px" id="scrollContainer">
                     <img src="{{ combineJpgPath }}" class="img-fluid" alt="{{ combineJpgPath }}">
                 </div>
             </div>
 
             <div class="container align-bottom" align="right" style="margin-top:80px">
-                <button type="submit" class="btn btn-danger" name="btn" value="download">ดาวน์โหลด JPG</button>
+                <button type="submit" class="btn btn-warning" name="btn" value="downloadSplit">ดาวน์โหลดไฟล์รวม</button>
+                <button type="submit" class="btn btn-danger" name="btn" value="downloadMerge">ดาวน์โหลดไฟล์แยก</button>
             </div>
         </div>
     </form>
